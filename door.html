@@ -1,0 +1,154 @@
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
+
+<body>
+    <div id="bgDiv"
+        style="position: absolute; top: 0; left: 0; bottom: 0; right: 0; overflow-x: scroll; overflow-y: hidden; background-color: black;">
+        <img id="room"
+            src="./img/doorfinal.png"
+            alt="room" style="position: absolute; height: 100%;">
+        <div id="clickable">
+            <img src="./img/handlefinal.png"
+                alt="touchable" id="handle" style="position: absolute; width: auto; height: inherit;"
+                onclick="handle()">
+        </div>
+        <!-- <img src="./img/clickable.png" alt="touchable" style="position: absolute; height: auto;" onclick="clickable()"> -->
+        <div id="modal" class="modal-overlay">
+            <div id="content" class="contentClass"></div>
+        </div>
+        <div id="modal2" class="modal-overlay2">
+            <div id="content2" class="contentClass2">프라이빗 룸에서 나가기</div>
+        </div>
+    </div>
+
+    <script>
+        window.addEventListener('DOMContentLoaded', function () {
+            // div height 설정
+            setDivHeight('handle', 'room');
+        });
+        window.onload = function () {
+            const naturalWidth = room.naturalWidth; // img 너비
+            const naturalHeight = room.naturalHeight; // img 높이
+            const imgHeight = 667 + "px"; // div 높이
+            console.log('nw', naturalWidth, 'nh', naturalHeight, 'ih', imgHeight)
+            const ratio = Math.abs(naturalWidth / naturalHeight)
+            const finalWidth = 667 * ratio + "px";
+            room.style.height = 667 + "px"
+            room.style.width = finalWidth
+            const windowHeight = window.innerHeight
+            if (windowHeight > 667) {
+                bgDiv.style.top = (windowHeight - 667) / 2 + "px"
+            }
+        }
+
+        function setDivHeight(x, y) {
+            let objSet = document.getElementById(x);
+            let objTarHeight = document.getElementById(y).offsetHeight;
+            if (x === 'handle') {
+                objSet.style.height = 88 + "px";
+                objSet.style.left = 345 + "px";
+                objSet.style.top = 380 + "px";
+            }
+        }
+
+        // 클릭 기능
+        function handle() {
+            let text = '(나가기)'
+            text = text.replace(/(?:\r\n|\r|\n)/g, '<br />');
+            content.innerHTML = text
+            modal.style.display = 'flex';
+        }
+
+        window.RealWorld = {
+            _onCameraFrameCallback: null,
+            invoke(name, ...params) {
+                let callName = name;
+                if (window.webkit && window.webkit.messageHandlers) {
+                    if (params.length === 0) {
+                        window.webkit.messageHandlers[callName].postMessage('');
+                    } else {
+                        window.webkit.messageHandlers[callName].postMessage(...params);
+                    }
+                } else if (window.Android) {
+                    if (params.length === 0) {
+                        window.Android[callName]();
+                    } else {
+                        window.Android[callName](...params);
+                    }
+                }
+            },
+            beginCameraFrameStream(camera, callback) {
+                window.RealWorld._onCameraFrameCallback = callback;
+                window.RealWorld.invoke('beginCameraFrameStream', camera);
+            },
+            closePage() {
+                window.RealWorld.invoke('closePage');
+            },
+            submitAction(input) {
+                window.RealWorld.invoke('submitAction', input);
+            }
+        }
+
+        modal.addEventListener("click", e => {
+            const evTarget = e.target
+            window.RealWorld.invoke('submitAction');
+        })
+
+        function submitAction() {
+            window.RealWorld.submitAction('');
+        }
+
+    </script>
+    <style>
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            background-color: black;
+        }
+
+        canvas,
+        img {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            /* position: relative; */
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        #modal.modal-overlay {
+            width: 100%;
+            height: 24vh;
+            position: fixed;
+            top: 75vh;
+            display: none;
+            flex-direction: column;
+            /* align-items: center; */
+            /* justify-content: center; */
+            background: rgba(21, 26, 100, 0.25);
+            box-shadow: 0 8px 32px 0 rgba(6, 13, 122, 0.37);
+            border-radius: 10px;
+            border: 1px solid rgba(169, 39, 255, 0.18);
+        }
+
+        #modal .contentClass {
+            top: 0px;
+            margin-top: 30px;
+            padding-left: 30px;
+            padding-right: 10px;
+            text-shadow: 1px 1px 2px gray;
+            color: rgb(235, 138, 255);
+        }
+
+    </style>
+</body>
+
+</html>
