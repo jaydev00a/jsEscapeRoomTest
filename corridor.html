@@ -8,22 +8,22 @@
 <body>
     <div id="bgDiv"
         style="position: absolute; top: 0; left: 0; bottom: 0; right: 0; overflow-x: scroll; overflow-y: hidden; background-color: black;">
-        <img id="room" src="./img/empty-dark-room-modern-futuristic-sci-fi-background-3d-illustration.png"
+        <img id="room" src="https://raw.githubusercontent.com/jaydev00a/jsEscapeRoomTest/develop/img/empty-dark-room-modern-futuristic-sci-fi-background-3d-illustration.png"
             alt="room" style="position: absolute; height: 100%;">
         <div id="clickable">
-            <img src="./img/empty-dark-room-modern-futuristic-sci-fi-background-3d-illustration (1).png"
+            <img src="https://raw.githubusercontent.com/jaydev00a/jsEscapeRoomTest/develop/img/empty-dark-room-modern-futuristic-sci-fi-background-3d-illustration (1).png"
                 alt="touchable" id="doorPolice" style="position: absolute; width: auto; height: inherit;"
                 onclick="doorPolice()">
-            <img src="./img/leftSdoor.png"
+            <img src="https://raw.githubusercontent.com/jaydev00a/jsEscapeRoomTest/develop/img/leftSdoor.png"
                 alt="touchable" id="doorEmployee" style="position: absolute; width: auto; height: inherit;"
                 onclick="doorEmployee()">
-            <img src="./img/leftFdoor.png"
+            <img src="https://raw.githubusercontent.com/jaydev00a/jsEscapeRoomTest/develop/img/leftFdoor.png"
                 alt="touchable" id="doorDoctor" style="position: absolute; width: auto; height: inherit;"
                 onclick="doorDoctor()">
-            <img src="./img/smallDoor.png"
+            <img src="https://raw.githubusercontent.com/jaydev00a/jsEscapeRoomTest/develop/img/smallDoor.png"
                 alt="touchable" id="doorOld" style="position: absolute; width: auto; height: inherit;"
                 onclick="doorOld()">
-            <img src="./img/rightTdoor.png"
+            <img src="https://raw.githubusercontent.com/jaydev00a/jsEscapeRoomTest/develop/img/rightTdoor.png"
                 alt="touchable" id="doorRich" style="position: absolute; width: auto; height: inherit;"
                 onclick="doorRich()"> -->
         </div>
@@ -37,6 +37,15 @@
     </div>
 
     <script>
+        window.addEventListener('DOMContentLoaded', function () {
+            // div height 설정
+            setDivHeight('doorPolice', 'room');
+            setDivHeight('doorDoctor', 'room');
+            setDivHeight('doorEmployee', 'room');
+            setDivHeight('doorOld', 'room');
+            setDivHeight('doorRich', 'room');
+
+            });
             window.onload = function () {
                 const naturalWidth = room.naturalWidth; // img 너비
                 const naturalHeight = room.naturalHeight; // img 높이
@@ -50,13 +59,6 @@
                 if (windowHeight > 667) {
                     bgDiv.style.top = (windowHeight - 667) / 2 + "px"
                 }
-
-                // div height 설정
-                setDivHeight('doorPolice', 'room');
-                setDivHeight('doorDoctor', 'room');
-                setDivHeight('doorEmployee', 'room');
-                setDivHeight('doorOld', 'room');
-                setDivHeight('doorRich', 'room');
             }
 
         function setDivHeight(x, y) {
