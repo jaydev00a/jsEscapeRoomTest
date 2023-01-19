@@ -1,0 +1,260 @@
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+</head>
+
+<body>
+    <div id="bgDiv"
+        style="position: absolute; top: 0; left: 0; bottom: 0; right: 0; overflow-x: scroll; overflow-y: hidden; background-color: black;">
+        <img id="room" src="./img/empty-dark-room-modern-futuristic-sci-fi-background-3d-illustration.png"
+            alt="room" style="position: absolute; height: 100%;">
+        <div id="clickable">
+            <img src="./img/empty-dark-room-modern-futuristic-sci-fi-background-3d-illustration (1).png"
+                alt="touchable" id="doorPolice" style="position: absolute; width: auto; height: inherit;"
+                onclick="doorPolice()">
+            <img src="./img/leftSdoor.png"
+                alt="touchable" id="doorEmployee" style="position: absolute; width: auto; height: inherit;"
+                onclick="doorEmployee()">
+            <img src="./img/leftFdoor.png"
+                alt="touchable" id="doorDoctor" style="position: absolute; width: auto; height: inherit;"
+                onclick="doorDoctor()">
+            <img src="./img/smallDoor.png"
+                alt="touchable" id="doorOld" style="position: absolute; width: auto; height: inherit;"
+                onclick="doorOld()">
+            <img src="./img/rightTdoor.png"
+                alt="touchable" id="doorRich" style="position: absolute; width: auto; height: inherit;"
+                onclick="doorRich()"> -->
+        </div>
+        <!-- <img src="./img/clickable.png" alt="touchable" style="position: absolute; height: auto;" onclick="clickable()"> -->
+        <div id="modal" class="modal-overlay">
+            <div id="content" class="contentClass"></div>
+        </div>
+        <div id="modal2" class="modal-overlay2">
+            <div id="content2" class="contentClass2">프라이빗 룸에서 나가기</div>
+        </div>
+    </div>
+
+    <script>
+            window.onload = function () {
+                const naturalWidth = room.naturalWidth; // img 너비
+                const naturalHeight = room.naturalHeight; // img 높이
+                const imgHeight = 667 + "px"; // div 높이
+                console.log('nw', naturalWidth, 'nh', naturalHeight, 'ih', imgHeight)
+                const ratio = Math.abs(naturalWidth / naturalHeight)
+                const finalWidth = 667 * ratio + "px";
+                room.style.height = 667 + "px"
+                room.style.width = finalWidth
+                const windowHeight = window.innerHeight
+                if (windowHeight > 667) {
+                    bgDiv.style.top = (windowHeight - 667) / 2 + "px"
+                }
+
+                // div height 설정
+                setDivHeight('doorPolice', 'room');
+                setDivHeight('doorDoctor', 'room');
+                setDivHeight('doorEmployee', 'room');
+                setDivHeight('doorOld', 'room');
+                setDivHeight('doorRich', 'room');
+            }
+
+        function setDivHeight(x, y) {
+            let objSet = document.getElementById(x);
+            let objTarHeight = document.getElementById(y).offsetHeight;
+            if (x === 'doorPolice') {
+                objSet.style.height = 400 + "px";
+                objSet.style.left = 860 + "px";
+                objSet.style.top = 5 + "px";
+            }
+            if (x === 'doorDoctor') {
+                objSet.style.height = 400 + "px";
+                objSet.style.left = 0 + "px";
+                objSet.style.top = 5 + "px";
+            }
+            if (x === 'doorEmployee') {
+                objSet.style.height = 297 + "px";
+                objSet.style.left = 208 + "px";
+                objSet.style.top = 115 + "px";
+            } 
+            if (x === 'doorOld') {
+                objSet.style.height = 330 + "px";
+                objSet.style.left = 785 + "px";
+                objSet.style.top = 75 + "px";
+            }
+            if (x === 'doorRich') {
+                objSet.style.height = 290 + "px";
+                objSet.style.left = 740 + "px";
+                objSet.style.top = 130 + "px";
+            }
+        }
+        
+        //modal창 클릭 시 사라짐
+        modal.addEventListener("click", e => {
+                const evTarget = e.target
+                if (evTarget.classList.contains("modal-overlay") || evTarget.classList.contains("contentClass")) {
+                    modal.style.display = "none"
+                }
+            })
+        
+        let clickedRobot = false
+        let clickedBlood = false
+        let clickedGlass = false
+        let clickedGuns = false
+
+        // 클릭 기능
+        function doorPolice () {
+            let text = '나경찰의 객실이다.\n객실 상태는 비교적 멀쩡한 편이다.\n수상한 아이템의 정보를 획득했다.\n\n(나가기)'
+            text = text.replace(/(?:\r\n|\r|\n)/g, '<br />');
+            content.innerHTML = text
+            modal.style.display = 'flex';
+            // document.getElementById("clickRobot").style.visibility = 'hidden'
+            clickedRobot = true
+            checkEverything()
+        }
+        function doorDoctor () {
+            let text = '의사유의 객실이다.\n깔끔했던 객실의 한쪽 벽이 무너져 있다.\n수상한 아이템의 정보를 획득했다.\n\n(나가기)'
+            text = text.replace(/(?:\r\n|\r|\n)/g, '<br />');
+            content.innerHTML = text
+            modal.style.display = 'flex';
+            clickedBlood = true
+            checkEverything()
+        }
+        function doorEmployee () {
+            let text = '김직원의 객실이다.\n객실에는 이런저런 짐이 널려 있다.\n수상한 아이템의 정보를 획득했다.\n\n(나가기)'
+            text = text.replace(/(?:\r\n|\r|\n)/g, '<br />');
+            content.innerHTML = text
+            modal.style.display = 'flex';
+            clickedGlass = true
+            checkEverything()
+        }
+        function doorOld () {
+            let text = '고전인의 객실이다.\n객실 한켠에 아주 오래된 듯한 허름한 배낭이 있다.\n수상한 아이템의 정보를 획득했다.\n\n(나가기)'
+            text = text.replace(/(?:\r\n|\r|\n)/g, '<br />');
+            content.innerHTML = text
+            modal.style.display = 'flex';
+            clickedGuns = true
+            checkEverything()
+        }
+        function doorRich () {
+            let text = '상류진의 객실이다.\n왠지 객실 내부가 더 화려한 것 같다.\n수상한 아이템의 정보를 획득했다.\n\n(나가기)'
+            text = text.replace(/(?:\r\n|\r|\n)/g, '<br />');
+            content.innerHTML = text
+            modal.style.display = 'flex';
+            clickedGuns = true
+            checkEverything()
+        }
+
+        function checkEverything () {
+            if (clickedRobot === true && clickedBlood === true && clickedGlass === true && clickedGuns === true) {
+                modal2.style.display = 'flex';
+            }
+        }
+
+                window.RealWorld = {
+                        _onCameraFrameCallback: null,
+                        invoke(name, ...params) {
+                            let callName = name;
+                            if (window.webkit && window.webkit.messageHandlers) {
+                                if (params.length === 0) {
+                                    window.webkit.messageHandlers[callName].postMessage('');
+                                } else {
+                                    window.webkit.messageHandlers[callName].postMessage(...params);
+                                }
+                            } else if (window.Android) {
+                                if (params.length === 0) {
+                                    window.Android[callName]();
+                                } else {
+                                    window.Android[callName](...params);
+                                }
+                            }
+                        },
+                        beginCameraFrameStream(camera, callback) {
+                            window.RealWorld._onCameraFrameCallback = callback;
+                            window.RealWorld.invoke('beginCameraFrameStream', camera);
+                        },
+                        closePage() {
+                            window.RealWorld.invoke('closePage');
+                        },
+                        submitAction(input) {
+                            window.RealWorld.invoke('submitAction', input);
+                        }
+                    }
+
+        modal2.addEventListener("click", e => {
+                const evTarget = e.target
+                window.RealWorld.invoke('submitAction');
+              })
+
+        function submitAction() {
+                window.RealWorld.submitAction('');
+            }
+
+    </script>
+    <style>
+        html,
+        body {
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            background-color: black;
+        }
+
+        canvas,
+        img {
+            width: 100%;
+            height: 100%;
+        }
+
+        body {
+            /* position: relative; */
+            -webkit-user-select: none;
+            user-select: none;
+        }
+
+        #modal.modal-overlay {
+            width: 100%;
+            height: 24vh;
+            position: fixed;
+            top: 75vh;
+            display: none;
+            flex-direction: column;
+            /* align-items: center; */
+            /* justify-content: center; */
+            background: rgba(21, 26, 100, 0.25);
+            box-shadow: 0 8px 32px 0 rgba(6, 13, 122, 0.37);
+            border-radius: 10px;
+            border: 1px solid rgba(169, 39, 255, 0.18);
+        }
+
+        #modal .contentClass {
+            top: 0px;
+            margin-top: 30px;
+            padding-left: 30px;
+            padding-right: 10px;
+            text-shadow: 1px 1px 2px gray;
+            color: rgb(235, 138, 255);
+        }
+
+        #modal2.modal-overlay2 {
+            width: 100%;
+            height: 22vh;
+            position: fixed;
+            display: none;
+            flex-direction: column;
+            /* align-items: center; */
+            /* justify-content: center; */
+        }
+
+        #modal2 .contentClass2 {
+            top: 0px;
+            margin-top: 30px;
+            padding-left: 30px;
+            padding-right: 10px;
+            text-shadow: 1px 1px 2px gray;
+            color: rgb(235, 138, 255);
+        }
+    </style>
+</body>
+
+</html>
